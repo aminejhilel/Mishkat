@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('prayer_settings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('calculation_method')->default('MWL');
+            $table->string('asr_juristic')->default('Standard');
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
             $table->timestamps();
         });
     }

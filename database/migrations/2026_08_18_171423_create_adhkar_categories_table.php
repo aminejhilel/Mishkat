@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('adhkar_categories', function (Blueprint $table) {
             $table->id();
+            $table->json('name'); // Translatable
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }

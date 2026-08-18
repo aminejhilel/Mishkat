@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('hadiths', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('hadith_category_id')->constrained()->cascadeOnDelete();
+            $table->json('text'); // Translatable
+            $table->json('narrator')->nullable(); // Translatable
+            $table->string('source')->nullable();
+            $table->integer('grade')->nullable();
             $table->timestamps();
         });
     }

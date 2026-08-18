@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
+            $table->json('name'); // Translatable
+            $table->json('bio')->nullable(); // Translatable
+            $table->string('avatar')->nullable();
             $table->timestamps();
         });
     }

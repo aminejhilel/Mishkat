@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('dhikrs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('adhkar_category_id')->constrained()->cascadeOnDelete();
+            $table->json('text'); // Translatable
+            $table->json('translation')->nullable(); // Translatable
+            $table->integer('count')->default(1);
             $table->timestamps();
         });
     }

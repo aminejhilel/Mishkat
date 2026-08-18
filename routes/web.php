@@ -12,8 +12,13 @@ Route::get('/', function () {
     return view('welcome', compact('surahs'));
 });
 
+use App\Http\Controllers\PrayerTimesController;
+use App\Http\Controllers\AdhkarController;
+
 Route::get('/quran', [QuranController::class, 'index'])->name('quran.index');
 Route::get('/quran/{surah}', [QuranController::class, 'show'])->name('quran.show');
+Route::get('/prayer-times', [PrayerTimesController::class, 'index'])->name('prayer-times.index');
+Route::get('/adhkar', [AdhkarController::class, 'index'])->name('adhkar.index');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

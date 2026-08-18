@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('hadith_categories', function (Blueprint $table) {
             $table->id();
+            $table->json('name'); // Translatable
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
