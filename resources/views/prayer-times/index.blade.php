@@ -1,75 +1,57 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Prayer Times - {{ config('app.name') }}</title>
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700" rel="stylesheet" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="font-sans antialiased bg-slate-900 text-white min-h-screen">
-
-    <nav class="bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <a href="{{ url('/') }}" class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">I</div>
-                    <span class="font-bold text-xl">Islamic<span class="text-emerald-400">App</span></span>
-                </a>
-                <div class="flex gap-6 text-sm font-medium text-slate-400">
-                    <a href="{{ route('quran.index') }}" class="hover:text-white transition">Quran</a>
-                    <a href="{{ route('prayer-times.index') }}" class="text-emerald-400">Prayers</a>
-                    <a href="{{ route('adhkar.index') }}" class="hover:text-white transition">Adhkar</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
+<x-layouts.public title="أوقات الصلاة — مِشْكَاة">
     <div class="max-w-5xl mx-auto px-4 py-16">
         <!-- Header -->
         <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold mb-3">🕌 Prayer Times</h1>
-            <p class="text-slate-400" id="location-label">Detecting your location...</p>
+            <h1 class="text-4xl font-bold mb-3 text-white">🕌 مواقيت الصلاة</h1>
+            <p class="text-slate-400" id="location-label">جاري تحديد الموقع...</p>
         </div>
 
         <!-- Next Prayer Countdown -->
         <div class="bg-gradient-to-br from-emerald-600 to-teal-700 rounded-3xl p-10 text-center mb-10 shadow-2xl shadow-emerald-900/50">
-            <p class="text-emerald-200 text-sm font-semibold uppercase tracking-widest mb-2">Next Prayer</p>
-            <h2 class="text-4xl font-bold mb-1" id="next-prayer-name">—</h2>
+            <p class="text-emerald-200 text-sm font-semibold uppercase tracking-widest mb-2">الصلاة القادمة</p>
+            <h2 class="text-4xl font-bold mb-1 text-white" id="next-prayer-name">—</h2>
             <p class="text-emerald-200 text-lg mb-6" id="next-prayer-time">—</p>
-            <div class="text-6xl font-mono font-bold tracking-wider" id="countdown">00:00:00</div>
+            <div class="text-6xl font-mono font-bold tracking-wider text-white" id="countdown" dir="ltr">00:00:00</div>
         </div>
 
         <!-- Prayer Times Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4" id="prayers-grid">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4" id="prayers-grid" dir="ltr">
             <div class="col-span-full text-center py-16">
                 <svg class="w-12 h-12 text-slate-600 mx-auto mb-4 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                 </svg>
-                <p class="text-slate-500">Fetching prayer times from Aladhan API...</p>
+                <p class="text-slate-500">جاري جلب أوقات الصلاة من Aladhan API...</p>
             </div>
         </div>
 
         <!-- Qibla Direction -->
         <div class="mt-10 bg-slate-800 rounded-3xl p-8 text-center border border-slate-700">
-            <h3 class="text-xl font-bold mb-4">🧭 Qibla Direction</h3>
-            <p class="text-slate-400 mb-6">Rotate your device to face the Qibla</p>
+            <h3 class="text-xl font-bold mb-4 text-white">🧭 اتجاه القبلة</h3>
+            <p class="text-slate-400 mb-6">قم بتدوير جهازك لتحديد اتجاه القبلة (يعمل على الهواتف)</p>
             <div class="relative w-48 h-48 mx-auto">
                 <div class="w-full h-full rounded-full bg-slate-700 border-4 border-slate-600 flex items-center justify-center">
                     <div id="qibla-arrow" class="text-5xl transition-transform duration-700" style="transform: rotate(0deg)">🕋</div>
                 </div>
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-3 text-xs font-bold text-slate-400">N</div>
-                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-3 text-xs font-bold text-slate-400">S</div>
-                <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 text-xs font-bold text-slate-400">W</div>
-                <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 text-xs font-bold text-slate-400">E</div>
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-3 text-xs font-bold text-slate-400">ش</div>
+                <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-3 text-xs font-bold text-slate-400">ج</div>
+                <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 text-xs font-bold text-slate-400">غ</div>
+                <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 text-xs font-bold text-slate-400">ق</div>
             </div>
-            <p class="mt-4 text-slate-300"><span id="qibla-degrees">—</span>° from North</p>
+            <p class="mt-4 text-slate-300" dir="ltr"><span id="qibla-degrees">—</span>° from North</p>
         </div>
     </div>
 
+    @push('scripts')
     <script>
+        const PRAYERS_AR = {
+            'Fajr': 'الفجر',
+            'Sunrise': 'الشروق',
+            'Dhuhr': 'الظهر',
+            'Asr': 'العصر',
+            'Maghrib': 'المغرب',
+            'Isha': 'العشاء'
+        };
         const PRAYERS = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
         let prayerTimes = {};
 
@@ -80,7 +62,7 @@
                 const time = timings[prayer];
                 const card = document.createElement('div');
                 card.className = 'bg-slate-800 border border-slate-700 rounded-2xl p-6 text-center hover:border-emerald-500 transition';
-                card.innerHTML = `<p class="text-slate-400 text-sm mb-2">${prayer}</p><p class="text-2xl font-bold">${time}</p>`;
+                card.innerHTML = `<p class="text-slate-400 text-sm mb-2 font-bold">${PRAYERS_AR[prayer]}</p><p class="text-2xl font-bold text-white">${time}</p>`;
                 grid.appendChild(card);
             });
         }
@@ -92,7 +74,7 @@
                 const prayerDate = new Date();
                 prayerDate.setHours(h, m, 0, 0);
                 if (prayerDate > now) {
-                    return { name: prayer, time: timings[prayer], date: prayerDate };
+                    return { name: PRAYERS_AR[prayer], time: timings[prayer], date: prayerDate };
                 }
             }
             return null;
@@ -123,26 +105,55 @@
                 });
         }
 
+        function fetchPrayerData(lat, lng, city = null) {
+            if (city) {
+                document.getElementById('location-label').textContent = `الموقع: ${city}`;
+            } else {
+                document.getElementById('location-label').textContent = `خط العرض: ${lat.toFixed(3)}, خط الطول: ${lng.toFixed(3)}`;
+            }
+
+            // Fetch prayer times using Method 21 (Moroccan Ministry of Habous)
+            fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=21`)
+                .then(r => r.json())
+                .then(data => {
+                    prayerTimes = data.data.timings;
+                    renderPrayers(prayerTimes);
+                    startCountdown(getNextPrayer(prayerTimes));
+                });
+
+            // Fetch qibla
+            getQibla(lat, lng);
+        }
+
+        function fallbackToIP() {
+            document.getElementById('location-label').textContent = 'جاري تحديد الموقع تقريبياً...';
+            fetch('https://ipapi.co/json/')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.latitude && data.longitude) {
+                        fetchPrayerData(data.latitude, data.longitude, data.city || data.country_name);
+                    } else {
+                        document.getElementById('location-label').textContent = 'لم نتمكن من تحديد الموقع. افتراضياً: وجدة، المغرب';
+                        fetchPrayerData(34.6814, -1.9086, 'وجدة، المغرب');
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('location-label').textContent = 'تعذر تحديد الموقع. افتراضياً: وجدة، المغرب';
+                    fetchPrayerData(34.6814, -1.9086, 'وجدة، المغرب');
+                });
+        }
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(pos => {
                 const { latitude: lat, longitude: lng } = pos.coords;
-                document.getElementById('location-label').textContent = `Lat: ${lat.toFixed(3)}, Lng: ${lng.toFixed(3)}`;
-
-                // Fetch prayer times
-                fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lng}&method=2`)
-                    .then(r => r.json())
-                    .then(data => {
-                        prayerTimes = data.data.timings;
-                        renderPrayers(prayerTimes);
-                        startCountdown(getNextPrayer(prayerTimes));
-                    });
-
-                // Fetch qibla
-                getQibla(lat, lng);
+                fetchPrayerData(lat, lng);
             }, () => {
-                document.getElementById('location-label').textContent = 'Location access denied. Please allow location in your browser.';
+                // If user denies or error occurs, fallback to IP
+                fallbackToIP();
             });
+        } else {
+            fallbackToIP();
         }
     </script>
-</body>
-</html>
+    @endpush
+</x-layouts.public>
