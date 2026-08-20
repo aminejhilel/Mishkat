@@ -28,8 +28,11 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('مِشْكَاة')
+            ->font('Amiri', 'https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap')
             ->colors([
                 'primary' => Color::Amber,
+                'gray' => Color::Slate,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
